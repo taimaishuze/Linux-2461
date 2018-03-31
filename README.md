@@ -63,7 +63,7 @@ tcp6       0      0 :::22             :::*                 LISTEN   1086/sshd
 ~~~
 Once you verify that Apache is listening on the correct port, you can configure support for PHP and FastCGI.
 
-#####Configuring Apache to Use mod_fastcgi
+##### Configuring Apache to Use mod_fastcgi
 Apache serves PHP pages using mod_php by default, but it requires additional configuration to work with PHP-FPM.
 ~~~shell
 sudo a2dismod php7.0
