@@ -5,14 +5,7 @@
 
 ## HTTP SERVER
 ### Apache HTTP Server Version 2.4
-This document covers compilation and installation of the Apache HTTP Server on Unix and Unix-like systems only. For compiling and installation on Windows, see Using Apache HTTP Server with Microsoft Windows and Compiling Apache for Microsoft Windows. For other platforms, see the platform documentation.
-
-Apache httpd uses libtool and autoconf to create a build environment that looks like many other Open Source projects.
-
-###### Installing on Ubuntu/Debian
-~~~shell
-sudo apt install apache2
-sudo service apache2 start
-~~~
+This documentation of Apache HTTP Server will only cover how Apache works
+for more information [https://httpd.apache.org/docs/2.4/]: Apache HTTP Server Project
 ### Copyright & License
  This work is licensed Apache License Version 2.0 
