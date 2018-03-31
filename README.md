@@ -30,7 +30,7 @@ Chang it to:
 ~~~shell
 Listen 8080
 ~~~
-Save and exit ```ports.com```.
+Save and exit ```ports.conf```.
 
 Next we'll edit the default virtual host file of Apache. The ```<VirtualHost>``` directive in this file is set to serve sites only on port ```80```, so we'll have to change that as well. Open the default virtual host file.
 
