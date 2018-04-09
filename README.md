@@ -108,7 +108,7 @@ echo "<?php phpinfo(); ?>" | sudo tee /var/www/html/info.php
 
 To see the file in a browser, go to ```http://your_ip_address:8080/info.php```. This will give you a list of configuration settings PHP is using.
 
-
+![at text](N-Arctica-Web-Server/YbWDj9i.png)
 
 ### Copyright & License
  This work is licensed Apache License Version 2.0 
