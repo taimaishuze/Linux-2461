@@ -97,5 +97,18 @@ Reload Apache if **Syntax OK** is displayed. If you see the warning Could not re
 ~~~shell
 sudo systemctl reload apache2
 ~~~
+
+##### Verifying PHP Functionality
+
+Check if PHP works by creating a ```phpinfo()``` file and accessing it from your web browser.
+
+~~~shell
+echo "<?php phpinfo(); ?>" | sudo tee /var/www/html/info.php
+~~~
+
+To see the file in a browser, go to ```http://your_ip_address:8080/info.php```. This will give you a list of configuration settings PHP is using.
+
+
+
 ### Copyright & License
  This work is licensed Apache License Version 2.0 
