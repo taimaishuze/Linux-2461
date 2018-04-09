@@ -108,7 +108,10 @@ echo "<?php phpinfo(); ?>" | sudo tee /var/www/html/info.php
 
 To see the file in a browser, go to ```http://your_ip_address:8080/info.php```. This will give you a list of configuration settings PHP is using.
 
-![at text](https://github.com/taimaishuze/N-Arctica-Web-Server/blob/master/YbWDj9i.png)
+![alt text](https://github.com/taimaishuze/N-Arctica-Web-Server/blob/master/YbWDj9i.png)
+![alt text](https://github.com/taimaishuze/N-Arctica-Web-Server/blob/master/363bUHT.png)
+
+At the top of the page, check that ***Server API*** says ***FPM/FastCGI***. About two-thirds of the way down the page, the ***PHP Variables*** section will tell you the ***SERVER_SOFTWARE*** is Apache on Ubuntu. These confirm that mod_fastcgi is active and Apache is using ```PHP-FPM``` to process PHP files.
 
 ### Copyright & License
  This work is licensed Apache License Version 2.0 
