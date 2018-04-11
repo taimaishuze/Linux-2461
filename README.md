@@ -158,8 +158,8 @@ Place the following dirctive in this new file:
     </Directory>
 </VirtualHost>
 ~~~
-~~~
-Note: ```AllowOLverride All``` enables ```.htaccess``` support.
+~~~Note
+```AllowOLverride All``` enables ```.htaccess``` support.
 ~~~
 These are only the most basic directives. For a complete guide on setting up virtual hosts in Apache, see How To Set Up Apache Virtual Hosts on Ubuntu 16.04.
 
