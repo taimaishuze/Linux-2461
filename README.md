@@ -34,9 +34,9 @@ Chang it to:
 Listen 8080
 ~~~
 Save and exit ```ports.conf```.
-~~~
-Note: Web servers are generally set to listen on 127.0.0.1:8080 when configuring a reverse proxy but doing so would set the value of PHP's environment variable SERVER_ADDR to the loopback IP address instead of the server's public IP. Our aim is to set up Apache in such a way that its websites do not see a reverse proxy in front of it. So, we will configure it to listen on 8080 on all IP addresses.
-~~~
+
+**Note**: Web servers are generally set to listen on **```127.0.0.1:8080```** when configuring a reverse proxy but doing so would set the value of PHP's environment variable **SERVER_ADDR** to the loopback IP address instead of the server's public IP. Our aim is to set up Apache in such a way that its websites do not see a reverse proxy in front of it. So, we will configure it to listen on **8080** on all IP addresses.
+
 
 Next we'll edit the default virtual host file of Apache. The ```<VirtualHost>``` directive in this file is set to serve sites only on port ```80```, so we'll have to change that as well. Open the default virtual host file.
 
@@ -71,23 +71,22 @@ Once you verify that Apache is listening on the correct port, you can configure 
 
 ##### Configuring Apache to Use mod_fastcgi
 
-Apache serves PHP pages using mod_php by default, but it requires additional configuration to work with PHP-FPM.
+Apache serves PHP pages using ```mod_php``` by default, but it requires additional configuration to work with PHP-FPM.
 
-~~~
-Note: If you are trying this tutorial on an existing installation of LAMP with mod_php, disable it first with:
-~~~
+**Note**: If you are trying this tutorial on an existing installation of **LAMP** with mod_php, disable it first with:
+
 ~~~shell
 sudo a2dismod php7.0
 ~~~
-We will be adding a configuration block for mod_fastcgi which depends on mod_action. mod_action is disabled by default, so we first need to enable it.
+We will be adding a configuration block for ```mod_fastcgi``` which depends on ```mod_action```. ```mod_action``` is disabled by default, so we first need to enable it.
 ~~~shell
 sudo a2enmod actions
 ~~~
-These configuration directives pass requests for .php files to the PHP-FPM UNIX socket.
+These configuration directives pass requests for ```.php``` files to the PHP-FPM UNIX socket.
 ~~~shell
 sudo nano /etc/apache2/mods-enabled/fastcgi.conf
 ~~~
-Add the following lines within the <IfModule mod_fastcgi.c> . . . </IfModule> block, below the existing items in that block:
+Add the following lines within the ```<IfModule mod_fastcgi.c> . . .</IfModule> block```, below the existing items in that block:
 ~~~shell
  AddType application/x-httpd-fastphp .php
  Action application/x-httpd-fastphp /php-fcgi
@@ -97,14 +96,15 @@ Add the following lines within the <IfModule mod_fastcgi.c> . . . </IfModule> bl
     Require all granted
  </Directory>
 ~~~
-Save the changes you made to fastcgi.conf and do a configuration test.
+Save the changes you made to ```fastcgi.conf``` and do a configuration test.
 ~~~shell
 sudo apachectl -t
 ~~~
-Reload Apache if **Syntax OK** is displayed. If you see the warning Could not reliably determine the server's fully qualified domain name, using 127.0.1.1. Set the 'ServerName' directive globally to suppress this message., that's fine. It doesn't affect us now.
+Reload Apache if **Syntax OK** is displayed. If you see the warning ```Could not reliably determine the server's fully qualified domain name, using 127.0.1.1. Set the 'ServerName' directive globally to suppress this message.```, that's fine. It doesn't affect us now.
 ~~~shell
 sudo systemctl reload apache2
 ~~~
+Now let's make sure we can serve PHP from Apache.
 
 ##### Verifying PHP Functionality
 
@@ -119,7 +119,7 @@ To see the file in a browser, go to ```http://your_ip_address:8080/info.php```. 
 ![alt text](https://github.com/taimaishuze/N-Arctica-Web-Server/blob/master/YbWDj9i.png)
 ![alt text](https://github.com/taimaishuze/N-Arctica-Web-Server/blob/master/363bUHT.png)
 
-At the top of the page, check that ***Server API*** says ***FPM/FastCGI***. About two-thirds of the way down the page, the ***PHP Variables*** section will tell you the ***SERVER_SOFTWARE*** is Apache on Ubuntu. These confirm that mod_fastcgi is active and Apache is using ```PHP-FPM``` to process PHP files.
+At the top of the page, check that ***Server API*** says ***FPM/FastCGI***. About two-thirds of the way down the page, the ***PHP Variables*** section will tell you the ***SERVER_SOFTWARE*** is Apache on Ubuntu. These confirm that ```mod_fastcgi``` is active and Apache is using ```PHP-FPM``` to process PHP files.
 
 ##### Creating Virtual Hosts for Apache
 
@@ -158,11 +158,45 @@ Place the following dirctive in this new file:
     </Directory>
 </VirtualHost>
 ~~~
-~~~Note
-```AllowOLverride All``` enables ```.htaccess``` support.
-~~~
+
+**Note**: ```AllowOLverride All``` enables ```.htaccess``` support.
+
 These are only the most basic directives. For a complete guide on setting up virtual hosts in Apache, see How To Set Up Apache Virtual Hosts on Ubuntu 16.04.
 
+Save and close the file. Then create a similar configuration ```for test.io```.
+~~~shell
+sudo nano /etc/apache2/sites-available/test.io.conf
+~~~
+~~~shell
+<VirtualHost *:8080>
+    ServerName test.io
+    ServerAlias www.test.io
+    DocumentRoot /var/www/test.io
+    <Directory /var/www/test.io>
+        AllowOverride All
+    </Directory>
+</VirtualHost>
+~~~
+Now that both Apache virtual hosts are set up, enable the sites using the ```a2ensite``` command. This creates a symbolic link to the virtual host file in the ```sites-enabled``` directory.
+~~~shell
+sudo a2ensite foobar.net
+~~~
+~~~shell
+sudo a2ensite test.io
+~~~
+Check Apache for configuration errors again.
+~~~shell
+sudo apachectl -t
+~~~
+Reload Apache if **Syntax OK** is displayed.
+~~~shell
+sudo systemctl reload apache2
+~~~
+To confirm the sites are working, open ```http://foobar.net:8080``` and ```http://test.io:8080``` in your browser and verify that each site displays its index.html file.
+
+You should see the following results:
+![alt text](
+![alt text](
 ### Copyright & License
  This work is licensed Apache License Version 2.0 
 
