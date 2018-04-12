@@ -9,11 +9,11 @@
 ### Configure Nginx as a Web Server and Reverse Proxy for Apache on One Ubuntu Server
 
 #### Prerequisites
-⋅⋅*A new Ubuntu 16.04 Droplet.
+⋅⋅* A new Ubuntu 16.04 Droplet.
 
-⋅⋅*A standard user account with ```sudo``` privileges. You can set up a standard account by following Steps 2 and 3 of the Initial Server Setup with Ubuntu 16.04.
+⋅⋅* A standard user account with ```sudo``` privileges. You can set up a standard account by following Steps 2 and 3 of the Initial Server Setup with Ubuntu 16.04.
 
-..*The desired domain names should point to your Droplet's IP address in the DigitalOcean control panel. See Step 3 of How To Set Up a Host Name with DigitalOcean for an example of how to do this. If you host your domains' DNS elsewhere, you should create appropriate A records there instead.
+..* The desired domain names should point to your Droplet's IP address in the DigitalOcean control panel. See Step 3 of How To Set Up a Host Name with DigitalOcean for an example of how to do this. If you host your domains' DNS elsewhere, you should create appropriate A records there instead.
 
 ##### Step 1 Installing Apache and PHP-FPM
 In addition to Apache and PHP-FPM, we must also install the PHP FastCGI Apache module which is named libapache2-mod-fastcgi.
