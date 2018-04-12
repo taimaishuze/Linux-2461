@@ -1,4 +1,5 @@
 # Project Web-Server
+
 The desired domain names should point to your Droplet's IP address in the DigitalOcean control panel. See Step 3 of How To Set Up a Host Name with DigitalOcean for an example of how to do this. If you host your domains' DNS elsewhere, you should create appropriate A records there instead.## Project Name: Web Server
 
 ### Project Roles
