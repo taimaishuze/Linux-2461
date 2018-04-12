@@ -8,6 +8,7 @@ The desired domain names should point to your Droplet's IP address in the Digita
 
 ### Configure Nginx as a Web Server and Reverse Proxy for Apache on One Ubuntu Server
 
+**Source**: https://www.digitalocean.com/community/tutorials/how-to-configure-nginx-as-a-web-server-and-reverse-proxy-for-apache-on-one-ubuntu-16-04-server
 #### Prerequisites
 * A new Ubuntu 16.04 Droplet.
 
@@ -63,14 +64,14 @@ Save the fle and reload Apache.
 ~~~shell
 sudo systemctl reload apache2
 ~~~
-Verify that Apache is now listening on 8080
+Verify that Apache is now listening on 8080https://www.digitalocean.com/community/tutorials/how-to-configure-nginx-as-a-web-server-and-reverse-proxy-for-apache-on-one-ubuntu-16-04-server
 ~~~shell
 sudo netatat -tlpn
 ~~~
 The output should look like the follwing example, with **apache2** listening on **:::8080**
 ~~~shell
 Active Internet connections (only servers)
-Proto Recv-Q Send-Q Local Address     Foreign Address      State    PID/Program name
+Proto Recv-Q Send-Q Local Address     Foreign Address      State    PID/Program namehttps://www.digitalocean.com/community/tutorials/how-to-configure-nginx-as-a-web-server-and-reverse-proxy-for-apache-on-one-ubuntu-16-04-server
 tcp        0      0 0.0.0.0:22        0.0.0.0:*            LISTEN   1086/sshd
 tcp6       0      0 :::8080           :::*                 LISTEN   4678/apache2
 tcp6       0      0 :::22             :::*                 LISTEN   1086/sshd
@@ -308,6 +309,8 @@ Now acccess the ```phpinfo()``` file of your Nginx virtual hosts in a web browse
 **["SERVER_SOFTWARE"]** should say ```nginx```, indicating that the files were directly served by Nginx. **["DOCUMENT_ROOT"]** should point to the directory you created earlier in this step for each Nginx site.
 
 At this point, we have installed Nginx and created two virtual hosts. Next we will configure Nginx to proxy requests meant for domains hosted on Apache.
+
+##### Step 7 Configuring Nginx for Apache's Virtual Hosts
 
 ### Copyright & License
  This work is licensed Apache License Version 2.0 
