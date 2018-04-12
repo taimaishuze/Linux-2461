@@ -1,4 +1,4 @@
-## Project Name: Web Server
+The desired domain names should point to your Droplet's IP address in the DigitalOcean control panel. See Step 3 of How To Set Up a Host Name with DigitalOcean for an example of how to do this. If you host your domains' DNS elsewhere, you should create appropriate A records there instead.## Project Name: Web Server
 
 ### Project Roles
 | **Documentation** |
@@ -203,7 +203,9 @@ sudo systemctl reload apache2
 To confirm the sites are working, open ```http://foobar.net:8080``` and ```http://test.io:8080``` in your browser and verify that each site displays its index.html file.
 
 You should see the following results:
+
 ![alt text](https://github.com/taimaishuze/N-Arctica-Web-Server/blob/master/3.png)
+
 ![alt text](https://github.com/taimaishuze/N-Arctica-Web-Server/blob/master/4.png)
 
 Also, check that PHP is working by accessing the info.php files for each site. Visit ```http://foobar.net:8080/info.php``` and ```http://test.io:8080/info.php``` in your browser.
