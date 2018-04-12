@@ -7,7 +7,7 @@
 
 
 ### Configure Nginx as a Web Server and Reverse Proxy for Apache on One Ubuntu Server
-##### Installing Apache and PHP-FPM
+##### Step 1 Installing Apache and PHP-FPM
 In addition to Apache and PHP-FPM, we must also install the PHP FastCGI Apache module which is named libapache2-mod-fastcgi.
 
 First, update the apt repository to ensure you have the latest packages.
@@ -19,7 +19,7 @@ Next, install the necessary packages:
 sudo apt-get install apache2 libapache2-mod-fastcgi php-fpm
 ~~~
 
-##### Configuring Apache and PHP-FPM
+##### Step 2 Configuring Apache and PHP-FPM
 
 Edit the Apache configuration file and change the port number of Apache.
 ~~~shel
@@ -69,7 +69,7 @@ tcp6       0      0 :::22             :::*                 LISTEN   1086/sshd
 ~~~
 Once you verify that Apache is listening on the correct port, you can configure support for PHP and FastCGI.
 
-##### Configuring Apache to Use mod_fastcgi
+##### Step 3 Configuring Apache to Use mod_fastcgi
 
 Apache serves PHP pages using ```mod_php``` by default, but it requires additional configuration to work with PHP-FPM.
 
@@ -106,7 +106,7 @@ sudo systemctl reload apache2
 ~~~
 Now let's make sure we can serve PHP from Apache.
 
-##### Verifying PHP Functionality
+##### Step 4 Verifying PHP Functionality
 
 Check if PHP works by creating a ```phpinfo()``` file and accessing it from your web browser.
 
@@ -121,7 +121,7 @@ To see the file in a browser, go to ```http://your_ip_address:8080/info.php```. 
 
 At the top of the page, check that ***Server API*** says ***FPM/FastCGI***. About two-thirds of the way down the page, the ***PHP Variables*** section will tell you the ***SERVER_SOFTWARE*** is Apache on Ubuntu. These confirm that ```mod_fastcgi``` is active and Apache is using ```PHP-FPM``` to process PHP files.
 
-##### Creating Virtual Hosts for Apache
+##### Step 5 Creating Virtual Hosts for Apache
 
 Let's create Apache virtual host files for the domains ```foobar.net``` and ```test.io```. To do that, we'll first create document root directories for both sites and place some default files in those directories so we can easily test our configuration.
 
@@ -195,8 +195,110 @@ sudo systemctl reload apache2
 To confirm the sites are working, open ```http://foobar.net:8080``` and ```http://test.io:8080``` in your browser and verify that each site displays its index.html file.
 
 You should see the following results:
-![alt text](
-![alt text](
+![alt text](https://github.com/taimaishuze/N-Arctica-Web-Server/blob/master/3.png)
+![alt text](https://github.com/taimaishuze/N-Arctica-Web-Server/blob/master/4.png)
+
+Also, check that PHP is working by accessing the info.php files for each site. Visit ```http://foobar.net:8080/info.php``` and ```http://test.io:8080/info.php``` in your browser.
+
+You should see the same PHP configuration spec list on each site as you saw in Step 4. We now have two websites hosted on Apache at port ```8080```
+
+##### Step 6 Installing and Configuring Nginx
+
+In this step we'll install Nginx and configure the domains ```example.com``` and ```sample.org``` as Nginx's virtual hosts. For a complete guide on setting up virtual hosts in Nginx, see How To Set Up Nginx Server Blocks (Virtual Hosts) on Ubuntu 16.04.
+
+Install Nginx using the package manager.
+~~~shell
+sudo apt-get install nginx
+~~~
+Then remove the default virtual host's symlink since we won't be using it any more. We'll create our own default site later (```example.com```).
+~~~shell
+sudo rm /etc/nginx/sites-enabled/default
+~~~
+Now we'll create virtual hosts for Nginx using the same procedure we used for Apache. First create document root directories for both the websites:
+~~~shell
+sudo mkdir -v /usr/share/nginx/{example.com,sample.org}
+~~~
+As we did with Apache's virtual hosts, we'll again create index and phpinfo() files for testing after setup is complete.
+~~~shell
+echo "<h1 style='color: green;'>Example.com</h1>" | sudo tee /usr/share/nginx/example.com/index.html
+~~~
+~~~shell
+echo "<h1 style='color: red;'>Sample.org</h1>" | sudo tee /usr/share/nginx/sample.org/index.html
+~~~
+~~~shell
+echo "<?php phpinfo(); ?>" | sudo tee /usr/share/nginx/example.com/info.php
+~~~
+~~~shell
+echo "<?php phpinfo(); ?>" | sudo tee /usr/share/nginx/sample.org/info.php
+~~~
+Now create a virtual host file for the domain ```example.com```.
+~~~shell
+sudo nano /etc/nginx/sites-available/example.com
+~~~
+Nginx calls ```server {. . .}``` areas of a configuration file **server blocks**. Create a server block for the primary virtual host, example.com. ```The default_server``` configuration directive makes this the default virtual host which processes HTTP requests that do not match any other virtual host.
+
+Paste the following into the file for example.com:
+~~~shell
+server {
+    listen 80 default_server;
+
+    root /usr/share/nginx/example.com;
+    index index.php index.html index.htm;
+
+    server_name example.com www.example.com;
+    location / {
+        try_files $uri $uri/ /index.php;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+        include snippets/fastcgi-php.conf;
+    }
+}
+~~~
+Save and close the file. Now create a virtual host file for Nginx's second domain, sample.org.
+~~~shell
+sudo nano /etc/nginx/sites-available/sample.org
+~~~
+The server block for sample.org should look like this:
+~~~shell
+server {
+    root /usr/share/nginx/sample.org;
+    index index.php index.html index.htm;
+
+    server_name sample.org www.sample.org;
+    location / {
+        try_files $uri $uri/ /index.php;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+        include snippets/fastcgi-php.conf;
+    }
+}
+~~~
+Save and close the file. Then enable both the sites by creating symbolic links to the sites-enabled directory.
+~~~shell
+sudo ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/example.com
+~~~
+~~~shell
+sudo ln -s /etc/nginx/sites-available/sample.org /etc/nginx/sites-enabled/sample.org
+~~~
+Do an Nginx configuration test:
+~~~shell
+sudo nginx -t
+~~~
+Then reload Nginx if **OK** is displayed.
+~~~shell
+sudo systemctl reload nginx
+~~~
+Now acccess the ```phpinfo()``` file of your Nginx virtual hosts in a web browser by visiting ```http://example.com/info.php``` and ```http://sample.org/info.php```. Look under the PHP Variables sections again.
+![alt text](https://github.com/taimaishuze/N-Arctica-Web-Server/blob/master/A43puCy.png)
+
+**["SERVER_SOFTWARE"]** should say ```nginx```, indicating that the files were directly served by Nginx. **["DOCUMENT_ROOT"]** should point to the directory you created earlier in this step for each Nginx site.
+
+At this point, we have installed Nginx and created two virtual hosts. Next we will configure Nginx to proxy requests meant for domains hosted on Apache.
+
 ### Copyright & License
  This work is licensed Apache License Version 2.0 
 
