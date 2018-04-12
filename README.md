@@ -5,6 +5,84 @@ The desired domain names should point to your Droplet's IP address in the Digita
 | ----------------- |
 | Kao Xiong         |
 
+### SootSplash
+
+##### Step 1 Adding User 
+
+Makaing sure you have admin right
+~~~shell
+sudo adduser <Username>
+~~~
+~~~shell
+Enter new UNIX password:<Password>
+~~~
+Now you be asked for your full name and other information
+After inputting your information you will need to confirm it
+After you have confirm your information
+You are finally a User on SootSplash
+
+##### Step 2 Generating public/private rsa key pair
+
+To generate the key use the command:
+~~~shell
+ssh-keygen -t rsa -f <Username>_rsa
+~~~
+Yoou be ask for your passphrase
+~~~shell
+Enter passphrase (empty for no passphrase): 
+~~~
+Once passphase has gone through the following message should appear:
+~~~shell
+Your identification has been saved in <Username>_rsa.
+Your public key has been saved in <Username>_rsa.pub.
+~~~
+You will also be shown your key fingerprint
+and your key's randomart image
+
+##### Step 3 Adding SootSplash.csci2461.com to known host list
+
+Command to establish the connection:
+~~~shell
+rsync -Pav <Username>_rsa.pub <Username>@sootsplash.csci2461.com:./2461-70/
+~~~
+You will be warn
+~~~shell
+Are you sure you want to continue connecting (yes/no)?
+~~~
+Type ```yes``` continue connecting or ```no``` to not connect
+You will be warn one last time:
+~~~shell
+Warning: Permanently added 'sootsplash.csci2461.com,167.99.232.136' (ECDSA) to the list of known hosts.
+~~~
+Then be ask for your password, this is the ```<Password>``` you set in **Step 1** 
+~~~shell
+<Username>@sootsplash.csci2461.com's password: 
+~~~
+Directory will be created 
+
+##### Step 4 Installing \<Username>_rsa.pub and key
+
+Enter following command to install <Username>_rsa.pub
+~~~shell
+ssh-copy-id -i <Username>_rsa <Username>@sootsplash.csci2461.com
+~~~
+Before it install you will be asked to enter your ```<Password>``` for it to be added
+~~~shell
+<Username>@sootsplash.csci2461.com's password: 
+~~~
+Keys will then be install
+
+##### Step 5 Finally connecting to SootSplash.csci2461.com
+
+The command to connect is:
+~~~shell
+ssh -i <Username>_rsa <Username>@sootsplash.csci2461.com
+~~~
+You will be asked to enter your passphrase:
+~~~shell
+Enter passphrase for key '<Username>_rsa': 
+~~~
+This will connect you to SootSplash
 
 ### Configure Nginx as a Web Server and Reverse Proxy for Apache on One Ubuntu Server
 
