@@ -48,7 +48,7 @@ The desired domain names should point to your Droplet's IP address in the Digita
  ~~~shell
  ssh-keygen -t rsa -f <Username>_rsa
  ~~~
- Yoou be ask for your passphrase
+ You will be asked for your passphrase
  ~~~shell
  Enter passphrase (empty for no passphrase): 
  ~~~
