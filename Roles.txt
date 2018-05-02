@@ -1,0 +1,16 @@
+Jorge HTML SUPPORT
+
+I joined the team a little late. For this project I was able to help the team
+with some documentation and resources about html. 
+First, I started a website example for the server. For this project I used:
+
+Html code for reading the site
+Css for the appearance and style
+JQuery for the animation and interactivity 
+
+After that I used the program WinSCP to upload the files to our Sootsplash server.
+WinSCP:It is a free software that use SSH protocol. The main function is making it easy and secure 
+to transfer files between remote systems (Windows or LInux) or local networks that use SSH.
+
+Our team made a decision to make a faster and simple website. Then, I contributed with the team with some html codes
+for the menu of our website.
